@@ -58,7 +58,6 @@ const userOneName = async (firstName) => {
     userFind.firstName = user[0].nombre;
     userFind.lastName = user[0].apellido;
     userFind.email = user[0].email;
-    userFind.password = user[0].password_hash;
     userFind.dateRegister = user[0].fecha_registro;
     userFind.lastLogin = user[0].ultimo_login;
     userFind.active = user[0].activo;
@@ -148,7 +147,7 @@ export const verifyToken = async (req, res) => {
     // await sleep(3000);
   jwt.verify(token, TOKEN_SECRET, async (error, user) => {
     if (error) return res.sendStatus(401)
-    const userFound = await userOneName(user.name)
+    const userFound = await userOneName(user.firstName)
     if (userFound === null) return res.status(401).json({succes: false, user: user, jwt: token, message: "No existe Token"});
     return res
       .status(200)
