@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 
 const findUser = async (email) => {
   try {
-    const result = await pool.query("SELECT id, nombre, apellido, email, password_hash, fecha_registro, ultimo_login, activo FROM usuarios WHERE email = '" + email + "'");
+    const result = await pool.query("SELECT id, nombre, apellido, avatar_url, email, password_hash, fecha_registro, ultimo_login, activo FROM usuarios WHERE email = '" + email + "'");
     const res = result.rows;
     return res;
   } catch (err) {
@@ -16,7 +16,7 @@ const findUser = async (email) => {
 
 const findUserName = async (firstName) => {
   try {
-    const result = await pool.query("SELECT id, nombre, apellido, email, password_hash, fecha_registro, ultimo_login, activo FROM usuarios WHERE nombre = '" + firstName + "'");
+    const result = await pool.query("SELECT id, nombre, apellido, avatar_url, email, password_hash, fecha_registro, ultimo_login, activo FROM usuarios WHERE nombre = '" + firstName + "'");
     const res = result.rows;
     return res;
   } catch (err) {
@@ -41,11 +41,16 @@ const userOne = async (email) => {
     userFind.id = user[0].id;
     userFind.firstName = user[0].nombre;
     userFind.lastName = user[0].apellido;
+    userFind.image = user[0].avatar_url;
     userFind.email = user[0].email;
     userFind.password = user[0].password_hash;
     userFind.dateRegister = user[0].fecha_registro;
     userFind.lastLogin = user[0].ultimo_login;
     userFind.active = user[0].activo;
+    const dia = String(userFind.dateRegister.getDate()).padStart(2, "0");
+    const mes = String(userFind.dateRegister.getMonth() + 1).padStart(2, "0");
+    const anio = userFind.dateRegister.getFullYear();
+    userFind.dateRegister = `${dia}/${mes}/${anio}`;
   }
   return userFind;
 };
@@ -57,10 +62,15 @@ const userOneName = async (firstName) => {
     userFind.id = user[0].id;
     userFind.firstName = user[0].nombre;
     userFind.lastName = user[0].apellido;
+    userFind.image = user[0].avatar_url;
     userFind.email = user[0].email;
     userFind.dateRegister = user[0].fecha_registro;
     userFind.lastLogin = user[0].ultimo_login;
     userFind.active = user[0].activo;
+    const dia = String(userFind.dateRegister.getDate()).padStart(2, "0");
+    const mes = String(userFind.dateRegister.getMonth() + 1).padStart(2, "0");
+    const anio = userFind.dateRegister.getFullYear();
+    userFind.dateRegister = `${dia}/${mes}/${anio}`;
   }
   return userFind;
 }
