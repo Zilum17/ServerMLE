@@ -1,4 +1,10 @@
 import pool from '../db.js';
+function formatDateToDDMMYYYY(date) {
+    const dia = String(date.getDate()).padStart(2, "0");
+    const mes = String(date.getMonth() + 1).padStart(2, "0");
+    const anio = date.getFullYear();
+    return `${dia}/${mes}/${anio}`;
+}
 const renameKeys = (data) => {
     return data.map(item => ({
       id: item.id,
@@ -7,14 +13,15 @@ const renameKeys = (data) => {
       category: item.categoria,
       level: item.nivel,
       image: item.imagen_url,
+      language: item.idioma,
       price: item.precio,
       isFree: item.es_gratis,
       subscription: item.requiere_suscripcion,
       duration: item.duracion_horas,
       qualification: item.calificacion_promedio,
       reviews: item.total_calificaciones,
-      dateCreated: item.fecha_creacion,
-      dateUpdated: item.fecha_actualizacion,
+      dateCreated: formatDateToDDMMYYYY(item.fecha_creacion),
+      dateUpdated: formatDateToDDMMYYYY(item.fecha_actualizacion),
       status: item.estado
     }));
   };
